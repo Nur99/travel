@@ -1,28 +1,7 @@
+# coding=utf-8
 from django.db import models
 
 # Create your models here.
-
-
-class City(models.Model):
-    """
-    Model for storing Cities from fitcom.kz
-    """
-
-    class Meta:
-        verbose_name = 'Город'
-        verbose_name_plural = 'Города'
-
-    name = models.CharField(max_length=100, verbose_name='Название города',
-                            unique=True, null=False, blank=False)
-
-    def __str__(self):
-        return self.name
-
-    def full(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-        }
 
 
 class Country(models.Model):
@@ -40,11 +19,22 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
-    def full(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-        }
+
+class City(models.Model):
+    """
+    Model for storing Cities from fitcom.kz
+    """
+
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+
+    name = models.CharField(max_length=100, verbose_name='Название города',
+                            unique=True, null=False, blank=False)
+    country = models.ForeignKey(Country, related_name='cities', on_delete=models.DO_NOTHING, verbose_name='Страна')
+
+    def __str__(self):
+        return self.name
 
 
 class PlaceType(models.Model):
@@ -62,12 +52,6 @@ class PlaceType(models.Model):
     def __str__(self):
         return self.name
 
-    def full(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-        }
-
 
 class PlaceService(models.Model):
     """
@@ -83,13 +67,7 @@ class PlaceService(models.Model):
 
     def __str__(self):
         return self.name
-
-    def full(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-        }
-
+    
 
 class Place(models.Model):
     """
@@ -99,6 +77,7 @@ class Place(models.Model):
     class Meta:
         verbose_name = 'Заведение'
         verbose_name_plural = 'Заведения'
+        ordering = ('-rating', )
 
     name = models.CharField(max_length=10000, verbose_name='Название заведения',
                             null=False, blank=False)
@@ -130,24 +109,8 @@ class Place(models.Model):
                                      null=True, blank=True)
     services = models.ManyToManyField(PlaceService, related_name='places',
                                       blank=True)
+    price = models.PositiveIntegerField(verbose_name='Цена посещений', default=0)
 
     def __str__(self):
         return self.name
 
-    def full(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'avatar_url': self.avatar_url,
-            'place_type': self.place_type.full(),
-            'rating': self.rating,
-            'description': self.description,
-            'city': self.city.full(),
-            'address': self.address,
-            'latitude': self.latitude,
-            'longitude': self.longitude,
-            'phones': self.phones,
-            'website_url': self.website_url,
-            'working_hours': self.working_hours,
-            'services': [service.full() for service in self.services.all()],
-        }
