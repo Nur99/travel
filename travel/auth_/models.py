@@ -16,14 +16,14 @@ class MainUserManager(BaseUserManager):
        Main user manager
     """
 
-    def create_user(self, email, password=None, first_name=None):
+    def create_user(self, email, password=None, full_name=None):
         """
         Creates and saves a user with the given email.
         """
         if not email:
             raise ValueError('User must have a email')
         user = self.model(email=email, password=password,
-                          first_name=first_name)
+                          full_name=full_name)
         user.save(using=self._db)
         return user
 

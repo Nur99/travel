@@ -35,4 +35,4 @@ class MainUserAdmin(UserAdmin):
 @admin.register(Activation)
 class ActivationAdmin(admin.ModelAdmin):
     list_display = ('id', 'email', 'is_active', 'created_at')
-    fields = ('email', 'password')
+    fields = ('email', 'password', 'is_active')

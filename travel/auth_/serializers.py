@@ -9,8 +9,8 @@ from utils import messages
 class MainUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainUser
-        exclude = ('is_admin', 'is_staff', 'is_active', 'password',
-                   'groups', )
+        exclude = ('password', 'is_superuser', 'is_admin',
+                   'is_active', 'is_staff', 'groups', 'user_permissions')
 
 
 class ActivationSerializer(serializers.ModelSerializer):
@@ -22,12 +22,12 @@ class ActivationSerializer(serializers.ModelSerializer):
 class RegistrationSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(max_length=200)
-    full_name = serializers.CharField(max_length=300)
+    full_name = serializers.CharField(max_length=300, allow_null=True)
 
     def complete(self, activation):
         user = MainUser.objects.create_user(self.validated_data['email'],
-                                     self.validated_data['password'],
-                                     self.validated_data['full_name'])
+                                            self.validated_data['password'],
+                                            self.validated_data['full_name'])
         activation.is_active = False
         activation.save()
         return user
@@ -45,11 +45,9 @@ class EmailSerializer(serializers.Serializer):
         return attrs
 
     def create_activation(self):
-        print('print')
         activation = Activation.objects.create(
             email=self.validated_data['email'],
             password=self.validated_data['password1'])
-        print('created')
         if self.validated_data.get('full_name'):
             activation.full_name = self.validated_data['full_name']
             activation.save()
