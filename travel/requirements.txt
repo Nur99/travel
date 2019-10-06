@@ -12,3 +12,4 @@ PyJWT==1.7.1
 python-dotenv==0.10.3
 pytz==2019.2
 sqlparse==0.3.0
+django-suit==0.2.7
