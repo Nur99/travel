@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Place
+from .models import Place, PlaceUserRating
 
 
 class PlaceSerializer(serializers.ModelSerializer):
@@ -20,3 +20,17 @@ class PlaceSearchSerializer(serializers.Serializer):
         for place in Place.objects.annotate(similarity=TrigramSimilarity('name', query), ).filter(**kwargs):
             places.append(place)
         return {'places': PlaceSerializer(places, many=True).data}
+
+
+class PlaceUserRatingSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = PlaceUserRating
+        fields = '__all__'
+
+
+class AddRatingSerializer(serializers.Serializer):
+
+    def add_rating(self, place, user):
+        data = self.context['request'].data
+        rating = PlaceUserRating.objects.add_rating(place=place, user=user, review=data['review'], rating=data['rating'])
+        return {'rating': PlaceUserRatingSerialzier(rating).data}

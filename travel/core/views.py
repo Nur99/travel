@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from .serializers import PlaceSerializer, PlaceSearchSerializer
+from .serializers import AddRatingSerializer, PlaceSerializer, PlaceSearchSerializer
 from .models import Place, Country, City, PlaceType, PlaceService
 from utils.decorators import response_wrapper
 
@@ -17,6 +17,8 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
     def get_serializer_class(self):
         if self.action == 'search':
             return PlaceSearchSerializer
+        if self.action == 'add_rating':
+            return AddRatingSerializer
         return self.serializer_class
 
     def get_queryset(self):
@@ -38,11 +40,15 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
     @action(methods=['post'], detail=False)
     def search(self, request):
         query = request.data['query']
-        print(1)
         serializer = self.get_serializer(data=request.data)
-        print(2)
         serializer.is_valid(raise_exception=True)
-        print(3)
         result = serializer.search(query=query)
-        print("result:", result)
+        return Response(result)
+
+    @action(permission_classes=[IsAuthenticated,], methods=['post'], detail=True)
+    def add_rating(self, request, pk):
+        instance = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        result = serializer.add_rating(place=instance, user=request.user)
         return Response(result)

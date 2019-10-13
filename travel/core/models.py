@@ -115,6 +115,16 @@ class Place(models.Model):
                                       blank=True)
     price = models.PositiveIntegerField(verbose_name='Цена посещений', default=0)
 
+    def recalculate_rating(self):
+        from django.db.models import Avg
+        ratings = self.rating_set_2
+        value = 0
+        if ratings.exists():
+            value = ratings.aggregate(avg=Avg('rating'))['avg']
+        self.rating_count = ratings.count()
+        self.rating = value
+        self.save()
+
     def __str__(self):
         return self.name
 
@@ -140,16 +150,13 @@ class PlaceUserRatingManager(models.Manager):
 
     def add_rating(self, place, user, rating, review):
         # self.filter(user=user, fitness=fitness).update(latest=False)
-        rating = PlaceUserRating(user=user, place=place, rating=rating, review=review, latest=True)
+        rating = PlaceUserRating(user=user, place=place, rating=rating, review=review)
         rating.save(admin_side=False)
-        return self.create()
+        return rating
 
-    def update_user_ratings(self):
-        approved_user_ratings = PlaceUserRating.objects.filter(place=self.place,
-                                                                 user=self.user,
-                                                                 status=constants.FEEDBACK_APPROVED)
-        copy, _ = PlaceUserRatingRequest.objects.get_or_create(place=self.place,
-                                                                 user=self.user)
+    def update_user_ratings(self, place, user):
+        approved_user_ratings = PlaceUserRating.objects.filter(place=place, user=user, status=constants.FEEDBACK_APPROVED)
+        copy, _ = PlaceUserRatingRequest.objects.get_or_create(place=place, user=user)
 
         if approved_user_ratings:
             last_approved_review = approved_user_ratings.first()
@@ -159,7 +166,7 @@ class PlaceUserRatingManager(models.Manager):
             copy.save()
         else:
             copy.delete()
-        self.place.recalculate_rating()
+        place.recalculate_rating()
 
 
 class PlaceUserRating(models.Model):
@@ -184,9 +191,9 @@ class PlaceUserRating(models.Model):
 
     def delete(self, admin_side=True, *args, **kwargs):
         super(PlaceUserRating, self).delete(*args, **kwargs)
-        PlaceUserRating.objects.update_user_ratings()
+        PlaceUserRating.objects.update_user_ratings(place=self.place, user=self.user)
 
     def save(self, admin_side=True, *args, **kwargs):
         super(PlaceUserRating, self).save(*args, **kwargs)
-        PlaceUserRating.objects.update_user_ratings()
+        PlaceUserRating.objects.update_user_ratings(place=self.place, user=self.user)
 

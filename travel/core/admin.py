@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, City, Place, PlaceType, PlaceService
+from .models import Country, City, Place, PlaceType, PlaceService, PlaceUserRating
 
 
 @admin.register(City)
@@ -32,3 +32,6 @@ class PlaceServiceAdmin(admin.ModelAdmin):
     list_filter = ('name', )
 
 
+@admin.register(PlaceUserRating)
+class PlaceUserRatingAdmin(admin.ModelAdmin):
+    list_display = ('place', 'user', 'rating', 'review', 'status')
