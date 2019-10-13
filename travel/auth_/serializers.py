@@ -20,12 +20,6 @@ class ActivationSerializer(serializers.ModelSerializer):
         fields = ('email', 'full_name', 'created_at', 'end_time')
 
 
-class ChangeProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MainUser
-        fields = ('full_name', 'avatar', 'birth_date')
-
-
 class RegistrationSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(max_length=200)

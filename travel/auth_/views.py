@@ -9,8 +9,7 @@ from auth_.message import send_html
 from auth_.token import get_token
 from auth_.serializers import (ActivationSerializer, EmailSerializer,
                                RegistrationSerializer, MainUserSerializer,
-                               LoginSerializer, ChangePasswordSerializer,
-                               ChangeProfileSerializer)
+                               LoginSerializer, ChangePasswordSerializer)
 from utils import messages
 
 
@@ -25,8 +24,7 @@ class ActivationViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return ActivationSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data,
-                                         context={'request': request})
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         activation = serializer.create_activation()
         return Response({'activation': ActivationSerializer(activation).data})
@@ -55,9 +53,9 @@ def activate(request, uuid):
     return Response({'user': MainUserSerializer(user).data})
 
 
-class UserViewSet(viewsets.GenericViewSet):
+class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
     queryset = MainUser.objects.all()
-    http_method_names = ['post', 'get']
+    http_method_names = ['post', 'get', 'patch']
     permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
@@ -93,10 +91,3 @@ class UserViewSet(viewsets.GenericViewSet):
     def profile(self, request):
         user = self.get_object()
         return Response(MainUserSerializer(user).data)
-
-    @action(methods=['post'], detail=False)
-    def change_profile(self, request):
-        serializer = ChangeProfileSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
