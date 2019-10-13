@@ -1,6 +1,10 @@
 # coding=utf-8
+from django.contrib.auth import get_user_model
 from django.db import models
 
+from utils import constants
+
+User = get_user_model()
 # Create your models here.
 
 
@@ -113,4 +117,76 @@ class Place(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PlaceUserRatingRequest(models.Model):
+    class Meta:
+        verbose_name = 'Copy fitness user_rating'
+        verbose_name_plural = 'Copy fitness user_rating'
+        ordering = ['-timestamp']
+        unique_together = ('place', 'user')
+
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='rating_set_2')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating_set_2')
+    review = models.TextField(blank=True, null=True)
+    rating = models.IntegerField(default=0)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{} - {}: {}'.format(self.place, self.user, self.rating)
+
+
+class PlaceUserRatingManager(models.Manager):
+
+    def add_rating(self, place, user, rating, review):
+        # self.filter(user=user, fitness=fitness).update(latest=False)
+        rating = PlaceUserRating(user=user, place=place, rating=rating, review=review, latest=True)
+        rating.save(admin_side=False)
+        return self.create()
+
+    def update_user_ratings(self):
+        approved_user_ratings = PlaceUserRating.objects.filter(place=self.place,
+                                                                 user=self.user,
+                                                                 status=constants.FEEDBACK_APPROVED)
+        copy, _ = PlaceUserRatingRequest.objects.get_or_create(place=self.place,
+                                                                 user=self.user)
+
+        if approved_user_ratings:
+            last_approved_review = approved_user_ratings.first()
+            copy.rating = last_approved_review.rating
+            copy.review = last_approved_review.review
+            copy.timestamp = last_approved_review.timestamp
+            copy.save()
+        else:
+            copy.delete()
+        self.place.recalculate_rating()
+
+
+class PlaceUserRating(models.Model):
+    class Meta:
+        verbose_name = 'Оценка пользователя залу'
+        verbose_name_plural = 'Оценки пользователей залам'
+        ordering = ['-timestamp']
+
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='rating_set')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating_set')
+    review = models.TextField(blank=True, null=True)
+    rating = models.IntegerField(default=0)
+    status = models.CharField(max_length=20,
+                              choices=constants.FEEDBACK_STATUSES,
+                              default=constants.FEEDBACK_PENDING)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = PlaceUserRatingManager()
+
+    def __str__(self):
+        return '{} - {}: {}'.format(self.place, self.user, self.rating)
+
+    def delete(self, admin_side=True, *args, **kwargs):
+        super(PlaceUserRating, self).delete(*args, **kwargs)
+        PlaceUserRating.objects.update_user_ratings()
+
+    def save(self, admin_side=True, *args, **kwargs):
+        super(PlaceUserRating, self).save(*args, **kwargs)
+        PlaceUserRating.objects.update_user_ratings()
 
