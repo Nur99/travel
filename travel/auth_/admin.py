@@ -28,11 +28,14 @@ class MainUserAdmin(UserAdmin):
             'fields': ('email', 'password1', 'password2')}
          ),
     )
-    ordering = ['email']
-    search_fields = ['email']
+    ordering = ('id',)
+    list_filter = ['is_staff', 'is_admin']
+    search_fields = ['email', 'full_name']
 
 
 @admin.register(Activation)
 class ActivationAdmin(admin.ModelAdmin):
     list_display = ('id', 'email', 'is_active', 'created_at')
     fields = ('email', 'password', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('email', 'full_name')
