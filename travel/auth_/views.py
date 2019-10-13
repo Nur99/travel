@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from django.utils import timezone
 from rest_framework.decorators import action, api_view
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ValidationError
@@ -15,7 +13,7 @@ from auth_.serializers import (ActivationSerializer, EmailSerializer,
 from utils import messages
 
 
-class ActivationViewSet(viewsets.GenericViewSet):
+class ActivationViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Activation.objects.all()
     http_method_names = ['post', 'get']
     permission_classes = (AllowAny,)

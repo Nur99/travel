@@ -8,6 +8,6 @@ urlpatterns = [
 ]
 
 router = DefaultRouter()
-router.register(r'activations', views.ActivationViewSet, base_name='activations')
+router.register(r'activations', views.ActivationViewSet, base_name='activations')  # noqa
 router.register(r'users', views.UserViewSet, base_name='users')
 urlpatterns += router.urls
