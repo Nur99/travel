@@ -45,6 +45,7 @@ class MainUser(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=300, blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     email = models.EmailField(max_length=50, unique=True, db_index=True)
+    birth_date = models.DateField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

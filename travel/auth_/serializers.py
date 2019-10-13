@@ -10,8 +10,8 @@ from utils import messages
 class MainUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainUser
-        exclude = ('password', 'is_superuser', 'is_admin', 'last_login',
-                   'is_active', 'is_staff', 'groups', 'user_permissions')
+        fields = ('id', 'full_name', 'avatar', 'email',
+                  'birth_date', 'timestamp')
 
 
 class ActivationSerializer(serializers.ModelSerializer):
@@ -69,3 +69,19 @@ class LoginSerializer(serializers.Serializer):
             raise ValidationError(messages.USER_DOESNOTEXIST)
         attrs['user'] = user
         return attrs
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    password1 = serializers.CharField()
+    password2 = serializers.CharField()
+
+    def validate(self, attrs):
+        if attrs['password1'] != attrs['password2']:
+            raise ValidationError(messages.PASSWORD_NOT_SAME)
+        return attrs
+
+    def change(self):
+        user = self.context['user']
+        user.set_password(self.validated_data['password1'])
+        user.save()
+        return user
