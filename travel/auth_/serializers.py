@@ -1,3 +1,5 @@
+from django.contrib.auth.hashers import check_password
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -9,7 +11,7 @@ from utils import messages
 class MainUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainUser
-        exclude = ('password', 'is_superuser', 'is_admin',
+        exclude = ('password', 'is_superuser', 'is_admin', 'last_login',
                    'is_active', 'is_staff', 'groups', 'user_permissions')
 
 
@@ -53,3 +55,18 @@ class EmailSerializer(serializers.Serializer):
             activation.save()
         send_html(activation, self.context['request'])
         return activation
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    def validate(self, attrs):
+        try:
+            user = MainUser.objects.get(email=attrs['email'])
+        except MainUser.DoesNotExist:
+            raise ValidationError(messages.USER_DOESNOTEXIST)
+        if not check_password(attrs['password'], user.password):
+            raise ValidationError(messages.USER_DOESNOTEXIST)
+        attrs['user'] = user
+        return attrs
