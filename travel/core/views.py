@@ -3,7 +3,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from .serializers import AddRatingSerializer, PlaceSerializer, PlaceSearchSerializer
+from .serializers import (AddRatingSerializer, PlaceSerializer,
+                          PlaceSearchSerializer, CitySerializer,
+                          CountrySerializer)
 from .models import Place, Country, City, PlaceType, PlaceService
 from utils.decorators import response_wrapper
 
@@ -52,3 +54,21 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
         serializer.is_valid(raise_exception=True)
         result = serializer.add_rating(place=instance, user=request.user)
         return Response(result)
+
+
+@method_decorator(response_wrapper(), name='dispatch')
+class CityViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = City.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = CitySerializer
+
+    def get_queryset(self):
+        country_id = self.request.query_params.get('country_id')
+        return City.objects.filter(country_id=country_id)
+
+
+@method_decorator(response_wrapper(), name='dispatch')
+class CountryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Country.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = CountrySerializer
