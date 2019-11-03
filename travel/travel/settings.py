@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'auth_',
     'core',
+    'feedback',
     'shop',
 ]
 
@@ -163,3 +164,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 PLACE_MODEL = 'core.Place'
 MAIN_USER_MODEL = 'auth_.MainUser'
+TIMESTAMP_MODEL = 'shop.TimestampMixin'
