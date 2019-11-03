@@ -35,7 +35,9 @@ class City(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='Название города',
                             unique=True, null=False, blank=False)
-    country = models.ForeignKey(Country, related_name='cities', on_delete=models.DO_NOTHING, verbose_name='Страна')
+    country = models.ForeignKey(Country, related_name='cities',
+                                on_delete=models.DO_NOTHING,
+                                verbose_name='Страна')
 
     def __str__(self):
         return self.name
@@ -71,7 +73,7 @@ class PlaceService(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class Place(models.Model):
     """

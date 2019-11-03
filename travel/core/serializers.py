@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Place, PlaceUserRating
+from .models import Place, PlaceUserRating, City, Country
 
 
 class PlaceSerializer(serializers.ModelSerializer):
@@ -34,3 +34,15 @@ class AddRatingSerializer(serializers.Serializer):
         data = self.context['request'].data
         rating = PlaceUserRating.objects.add_rating(place=place, user=user, review=data['review'], rating=data['rating'])
         return {'rating': PlaceUserRatingSerialzier(rating).data}
+
+
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = '__all__'
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = '__all__'
