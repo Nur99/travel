@@ -45,11 +45,18 @@ class Order(TimestampMixin):
     quantity = models.IntegerField(default=1, verbose_name='Количество')
     status = models.CharField(max_length=100, choices=ORDER_STATUSES, default=RESERVED, verbose_name='Статус заказа')
 
+    @property
+    def total_price(self):
+        return self.quantity * self.event.price
+
+    def get_payment_description(self):
+        return '{}'.format(self.event)
+
 
 class Ticket(models.Model):
     class Meta:
         verbose_name = 'Билет'
         verbose_name_plural = 'Билеты'
 
-    order = models.ForeignKey(Order, related_name='orders', on_delete=models.CASCADE, verbose_name='Заказ')
+    order = models.ForeignKey(Order, related_name='tickets', on_delete=models.CASCADE, verbose_name='Заказ')
     uuid = models.UUIDField(default=uuid.uuid4(), unique=True, verbose_name='Номер билета')
