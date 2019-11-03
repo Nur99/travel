@@ -44,6 +44,8 @@ class PaymentManager(models.Manager):
         payment = Payment.objects.create(order=order,
                                          user=order.user,
                                          description=order.get_payment_description(),
+                                         price=order.event.price,
+                                         quantity=order.quantity,
                                          total_price=order.total_price,
                                          status=constants.CREATED,
                                          email=order.user.email)
@@ -73,7 +75,9 @@ class Payment(TimestampMixin, models.Model):
     user = models.ForeignKey(settings.MAIN_USER_MODEL, on_delete=models.CASCADE,
                              related_name='payments')
     email = models.EmailField(max_length=200, blank=True, null=True)
-    total_price = models.PositiveIntegerField()
+    total_price = models.PositiveIntegerField(null=True)
+    price = models.PositiveIntegerField(null=True)
+    quantity = models.PositiveIntegerField(default=1)
     description = models.CharField(max_length=200)
     salt = models.CharField(max_length=100)
     card_pan = models.CharField(max_length=100, null=True, blank=True)
@@ -111,20 +115,20 @@ class Payment(TimestampMixin, models.Model):
             'pg_description': self.description,
             'pg_salt': self.salt,
             'pg_testing_mode': settings.PB_TESTING,
-            'pg_result_url': "https://127.0.0.1:8000/payment/paybox/result/",
-            "pg_success_url": "https://127.0.0.1:8000/payment/paybox/success/",
-            'pg_check_url': "https://127.0.0.1:8000/payment/paybox/check/",
+            'pg_result_url': "http://127.0.0.1:8000/payment/paybox/result/",
+            "pg_success_url": "http://127.0.0.1:8000/payment/paybox/success/",
+            'pg_check_url': "http://127.0.0.1:8000/payment/paybox/check/",
             'pg_request_method': "POST",
             'pg_success_url_method': "POST",
-            'pg_refund_url': "https://127.0.0.1:8000/payment/paybox/refund/",
-            'pg_capture_url': "https://127.0.0.1:8000/payment/paybox/capture/",
-            "pg_failure_url": "https://127.0.0.1:8000/payment/paybox/failure/",
+            'pg_refund_url': "http://127.0.0.1:8000/payment/paybox/refund/",
+            'pg_capture_url': "http://127.0.0.1:8000/payment/paybox/capture/",
+            "pg_failure_url": "http://127.0.0.1:8000/payment/paybox/failure/",
             'pg_failure_url_method': 'POST'
         }
         if self.email or self.user.email:
             params['pg_user_contact_email'] = self.email or self.user.email
-        if self.user.phone:
-            params['pg_user_phone'] = self.user.phone
+        # if self.user.phone:
+        #     params['pg_user_phone'] = self.user.phone
         sig = get_sig(params)
         params['pg_sig'] = sig
         p = Request('GET', settings.PB_URL, params=params).prepare()

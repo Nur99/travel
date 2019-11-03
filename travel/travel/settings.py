@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'auth_',
-    'core'
+    'core',
+    'shop',
+    'payment',
+    'mixins'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -113,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "auth_.MainUser"
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
@@ -123,6 +125,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+AUTH_USER_MODEL = 'auth_.MainUser'
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False
@@ -166,3 +170,7 @@ PB_SECRET = os.getenv('PB_SECRET')
 PB_SECRET_TICKET = os.getenv('PB_SECRET_TICKET')
 PB_MERCHANT_ID = os.getenv('PB_MERCHANT_ID')
 PB_TESTING = '1'
+
+PLACE_MODEL = 'core.Place'
+MAIN_USER_MODEL = 'auth_.MainUser'
+ORDER_MODEL = 'shop.Order'
