@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Order
+from .models import Order, Ticket
 
 
 class OrderPurchaseSerializer(serializers.ModelSerializer):
@@ -15,3 +15,11 @@ class OrderPurchaseSerializer(serializers.ModelSerializer):
     #     payment = Payment.objects.from_order(order=order)
     #     return {'paybox_url': payment.get_paybox_url()}
     #
+
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+
+    order = OrderPurchaseSerializer()

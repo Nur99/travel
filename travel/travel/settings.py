@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'core',
     'feedback',
     'shop',
+    'payment',
+    'mixins'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -115,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "auth_.MainUser"
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
@@ -125,6 +126,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+AUTH_USER_MODEL = 'auth_.MainUser'
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False
@@ -162,6 +165,13 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
+PB_URL = 'https://api.paybox.money/payment.php'
+PB_REVOKE_URL = 'https://api.paybox.money/revoke.php'
+PB_SECRET = os.getenv('PB_SECRET')
+PB_SECRET_TICKET = os.getenv('PB_SECRET_TICKET')
+PB_MERCHANT_ID = os.getenv('PB_MERCHANT_ID')
+PB_TESTING = '1'
+
 PLACE_MODEL = 'core.Place'
 MAIN_USER_MODEL = 'auth_.MainUser'
-TIMESTAMP_MODEL = 'shop.TimestampMixin'
+ORDER_MODEL = 'shop.Order'
