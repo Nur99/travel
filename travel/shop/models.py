@@ -29,7 +29,7 @@ class Event(TimestampMixin):
     description = models.TextField(verbose_name='Описание')
     price = models.FloatField(default=0.0, verbose_name='Цена')
     note = models.TextField(verbose_name='Заметки (запреты, советы)')
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(verbose_name='Время мероприятий')
 
     def __str__(self):
         return '{}'.format(self.title)
