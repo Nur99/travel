@@ -159,3 +159,10 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+PB_URL = 'https://api.paybox.money/payment.php'
+PB_REVOKE_URL = 'https://api.paybox.money/revoke.php'
+PB_SECRET = os.getenv('PB_SECRET')
+PB_SECRET_TICKET = os.getenv('PB_SECRET_TICKET')
+PB_MERCHANT_ID = os.getenv('PB_MERCHANT_ID')
+PB_TESTING = '1'
