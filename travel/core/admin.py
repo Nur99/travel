@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Country, City, Place, PlaceType, PlaceService, PlaceUserRating
+from .models import (Country, City, Place, PlaceType, PlaceService,
+                    PlaceUserRating)
 
 
 @admin.register(City)
