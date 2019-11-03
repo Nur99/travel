@@ -1,9 +1,10 @@
 from django.db import models
 from django.conf import settings
+from mixins.models import TimestampMixin
 # Create your models here.
 
 
-class Feedback(settings.TIMESTAMP_MODEL):
+class Feedback(TimestampMixin):
     class Meta:
         verbose_name = 'Запрос клиента'
         verbose_name_plural = 'Запросы клиента'

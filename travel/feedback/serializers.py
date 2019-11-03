@@ -7,4 +7,6 @@ from .models import Feedback
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
-        fields = ('id', 'user', 'description', )
+        read_only_fields = ('user', )
+        fields = ('user', 'message', )
+        depth = 2
