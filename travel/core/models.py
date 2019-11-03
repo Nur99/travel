@@ -113,7 +113,6 @@ class Place(models.Model):
                                      null=True, blank=True)
     services = models.ManyToManyField(PlaceService, related_name='places',
                                       blank=True)
-    price = models.PositiveIntegerField(verbose_name='Цена посещений', default=0)
 
     def recalculate_rating(self):
         from django.db.models import Avg
