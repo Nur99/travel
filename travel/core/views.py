@@ -25,10 +25,10 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = self.queryset
         city = self.request.query_params.get('city')
         if city:
-            queryset = queryset.filter(city=City.objects.get(id=city))
+            queryset = queryset.filter(city_id=city)
         country = self.request.query_params.get('country')
         if country:
-            queryset = queryset.filter(city__country=Country.objects.get(id=country))
+            queryset = queryset.filter(city__country=country)
         price_min = self.request.query_params.get('price_min')
         price_max = self.request.query_params.get('price_max')
         if price_min:
