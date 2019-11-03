@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'auth_',
-    'core'
+    'core',
+    'shop',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -159,3 +160,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+PLACE_MODEL = 'core.Place'
+MAIN_USER_MODEL = 'auth_.MainUser'
