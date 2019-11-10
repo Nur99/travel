@@ -52,6 +52,14 @@ class Order(TimestampMixin):
     def get_payment_description(self):
         return '{}'.format(self.event)
 
+    def success(self):
+        self.status = APPROVED
+        self.save()
+
+    def fail(self):
+        self.status = CANCELED
+        self.save()
+
 
 class Ticket(models.Model):
     class Meta:

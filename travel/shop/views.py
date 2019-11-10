@@ -18,13 +18,10 @@ class OrderViewSet(viewsets.GenericViewSet):
         queryset = self.queryset.filter(user=self.request.user)
         return queryset
 
-    # def get_serializer_class(self):
-    #
-    #     return self.serializer_class
+    @action(methods=['post'], detail=False)
+    def purchase(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        result = serializer.purchase()
+        return Response(result)
 
-    # @action(methods=['post'], detail=False)
-    # def purchase(self, request):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     result = serializer.purchase()
-    #     return Response(result)

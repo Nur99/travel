@@ -1,20 +1,19 @@
 from rest_framework import serializers
 from .models import Order, Ticket
+from payment.models import Payment
 
 
 class OrderPurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = '__all__'
-        depth = 2
+        fields = ('event', 'quantity')
 
-    # def purchase(self):
-    #     order = Order(**self.validated_data)
-    #     order.user = self.context['request'].user
-    #     order.save()
-    #     payment = Payment.objects.from_order(order=order)
-    #     return {'paybox_url': payment.get_paybox_url()}
-    #
+    def purchase(self):
+        order = Order(**self.validated_data)
+        order.user = self.context['request'].user
+        order.save()
+        payment = Payment.objects.from_order(order=order)
+        return {'paybox_url': payment.mock_url}
 
 
 class TicketSerializer(serializers.ModelSerializer):
