@@ -64,6 +64,8 @@ class Order(TimestampMixin):
 
     def success(self):
         self.status = APPROVED
+        for i in range(self.quantity):
+            Ticket.objects.create(order=self)
         self.save()
 
     def fail(self):
