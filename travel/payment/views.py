@@ -2,13 +2,11 @@ from django.utils.decorators import method_decorator
 from utils import constants
 from utils.decorators import response_wrapper
 from rest_framework import viewsets
-from rest_framework.exceptions import ValidationError
-from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 from .serializers import PaymentSerializer, PaymentListSerializer
-from .models import  Payment
+from .models import Payment
 
 
 @method_decorator(response_wrapper(), name='dispatch')
@@ -24,7 +22,8 @@ class PaymentViewSet(viewsets.ReadOnlyModelViewSet, viewsets.GenericViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        queryset = queryset.filter(user=self.request.user, status=constants.SUCCESS)
+        queryset = queryset.filter(user=self.request.user,
+                                   status=constants.SUCCESS)
         return queryset
 
 

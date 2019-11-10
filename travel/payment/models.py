@@ -1,17 +1,15 @@
 from django.db import models
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from requests import Request
 from mixins.models import TimestampMixin
-from utils import constants, messages
-import requests
+from utils import constants
 
 
 class PaymentManager(models.Manager):
     def from_order(self, order):
         payment = Payment.objects.create(order=order,
                                          user=order.user,
-                                         description=order.get_payment_description(),
+                                         description=order.get_payment_description(),  # noqa
                                          price=order.event.price,
                                          quantity=order.quantity,
                                          total_price=order.total_price,
@@ -32,7 +30,8 @@ class Payment(TimestampMixin, models.Model):
     description = models.CharField(max_length=100, null=True)
     status = models.CharField(max_length=10, choices=constants.PAYMENT_STATUSES,
                               default=constants.CREATED, db_index=True)
-    order = models.ForeignKey(settings.ORDER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    order = models.ForeignKey(settings.ORDER_MODEL, on_delete=models.CASCADE,
+                              blank=True, null=True)
 
     objects = PaymentManager()
 
