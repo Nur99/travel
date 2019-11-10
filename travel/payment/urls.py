@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
-    path('pay/<str:id>/', views.PayTicket.as_view())
+    path('card_detail/<int:id>/', views.CardDetail.as_view())
 ]
 
 router = DefaultRouter()

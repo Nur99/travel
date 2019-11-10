@@ -13,7 +13,7 @@ class OrderPurchaseSerializer(serializers.ModelSerializer):
         order.user = self.context['request'].user
         order.save()
         payment = Payment.objects.from_order(order=order)
-        return {'paybox_url': payment.mock_url}
+        return {'paybox_url': payment.get_payment_url()}
 
 
 class TicketSerializer(serializers.ModelSerializer):

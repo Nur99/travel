@@ -198,9 +198,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-PAYMENT_URL = 'http://127.0.0.1:8000/payment/pay/{}'
+PAYMENT_URL = 'http://127.0.0.1:8000/payment/card_detail/{}'
 
 PLACE_MODEL = 'core.Place'
-MAIN_USER_MODEL = 'auth_.MainUser'
 ORDER_MODEL = 'shop.Order'
 TIMESTAMP_MIXIN_MODEL = 'mixins.TimestampMixin'

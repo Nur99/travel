@@ -6,7 +6,7 @@ from payment.models import Payment
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ('id', 'created_at', 'quantity', 'price', 'total_price',
+        fields = ('id', 'created_at', 'total_price',
                   'order', 'description', 'status')
 
     order = OrderPurchaseSerializer()
@@ -23,3 +23,18 @@ class PaymentListSerializer(serializers.ModelSerializer):
         model = Payment
         fields = ('id', 'created_at', 'quantity', 'price', 'total_price',
                   'description', 'status')
+
+
+class PayTicketSerializer(serializers.Serializer):
+    name_on_card = serializers.CharField(max_length=100)
+    card_number = serializers.IntegerField()
+    expiration = serializers.CharField(max_length=10)
+    cvv = serializers.IntegerField()
+
+    def pay(self, pk):
+        p = Payment.objects.get(id=pk)
+        p.card = self.validated_data['card_number']
+        p.save()
+        p.success()
+        return {'result': 'success'}
+

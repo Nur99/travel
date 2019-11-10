@@ -9,7 +9,7 @@ class Feedback(TimestampMixin):
         verbose_name = 'Запрос клиента'
         verbose_name_plural = 'Запросы клиента'
 
-    user = models.ForeignKey(settings.MAIN_USER_MODEL, related_name='feedbacks', on_delete=models.CASCADE,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='feedbacks', on_delete=models.CASCADE,
                              verbose_name='Пользователь')
     message = models.TextField(verbose_name='Сообщение')
 

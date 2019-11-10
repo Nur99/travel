@@ -10,11 +10,9 @@ class PaymentManager(models.Manager):
         payment = Payment.objects.create(order=order,
                                          user=order.user,
                                          description=order.get_payment_description(),  # noqa
-                                         price=order.event.price,
-                                         quantity=order.quantity,
                                          total_price=order.total_price,
                                          status=constants.CREATED,
-                                         email=order.user.email)
+                                        )
         return payment
 
 
@@ -23,7 +21,7 @@ class Payment(TimestampMixin, models.Model):
         ordering = ['-id']
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
-    user = models.ForeignKey(settings.MAIN_USER_MODEL, on_delete=models.CASCADE,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name='payments')
     card = models.CharField(max_length=100, null=True, blank=True)
     total_price = models.PositiveIntegerField(null=True)
@@ -42,12 +40,12 @@ class Payment(TimestampMixin, models.Model):
         p = Request('GET', settings.PAYMENT_URL.format(self.id)).prepare()
         return p.url
 
-    def success(self, body):
+    def success(self):
         self.order.success()
         self.status = constants.SUCCESS
         self.save()
 
-    def fail(self, body):
+    def fail(self):
         self.order.fail()
         self.status = constants.FAILURE
         self.save()

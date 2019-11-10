@@ -88,15 +88,16 @@
         <div class="row">
             <div class="col-75">
                 <div class="container">
-                <form>
+                <form method='post' action='http://127.0.0.1:8000/payment/payment/{{payment}}/pay/'>
+                    {% csrf_token %}
                     <div class="col-50">
                         <h3>Оплата</h3>
-                        <label for="cname">Имя на карте</label>
-                        <input type="text" id="cname" name="cardname">
+                        <label for="name_">Имя на карте</label>
+                        <input type="text" id="cname" name="name_on_card">
                         <label for="ccnum">Номер карты</label>
-                        <input type="text" id="ccnum" name="cardnumber">
-                        <label for="expmonth">Срок действия (месяц)</label>
-                        <input type="text" id="expmonth" name="expmonth">
+                        <input type="text" id="ccnum" name="card_number">
+                        <label for="expmonth">Срок действия</label>
+                        <input type="text" id="expmonth" name="expiration">
                         <label for="cvv">CVV</label>
                         <input type="text" id="cvv" name="cvv">
                     </div>

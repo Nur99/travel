@@ -2,6 +2,7 @@ from auth_.models import MainUser
 from core.models import Place
 from django.conf import settings
 from django.db import models
+from mixins.models import TimestampMixin
 from utils.upload import unique_path
 from utils.constants import APPROVED, CANCELED, RESERVED, ORDER_STATUSES
 
@@ -9,13 +10,6 @@ from utils.constants import APPROVED, CANCELED, RESERVED, ORDER_STATUSES
 
 
 import uuid
-
-
-class TimestampMixin(models.Model):
-    class Meta:
-        abstract = True
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время последнего изменения')
 
 
 class Event(TimestampMixin):
@@ -40,7 +34,7 @@ class Order(TimestampMixin):
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
 
-    user = models.ForeignKey(settings.MAIN_USER_MODEL, related_name='orders', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE, verbose_name='Пользователь')
     event = models.ForeignKey(Event, related_name='orders', on_delete=models.CASCADE, verbose_name='Мероприятие')
     quantity = models.IntegerField(default=1, verbose_name='Количество')
     status = models.CharField(max_length=100, choices=ORDER_STATUSES, default=RESERVED, verbose_name='Статус заказа')
