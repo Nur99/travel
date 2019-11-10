@@ -134,6 +134,10 @@ class Payment(TimestampMixin, models.Model):
         p = Request('GET', settings.PB_URL, params=params).prepare()
         return p.url
 
+    @property
+    def mock_url(self):
+        return 'Nurymjan krasavchik'
+
     @staticmethod
     def get_salt():
         return generate_password(length=10)
