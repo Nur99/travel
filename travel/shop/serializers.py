@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from .models import Order, Ticket
+from auth_.serializers import MainUserSerializer
 from payment.models import Payment
 
 
 class OrderPurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('event', 'quantity')
+        fields = ('event', 'quantity', 'status')
+        write_only_fields = ('status', )
 
     def purchase(self):
         order = Order(**self.validated_data)
