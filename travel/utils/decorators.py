@@ -1,6 +1,5 @@
 from copy import deepcopy
 from functools import wraps
-from rest_framework.exceptions import ValidationError
 from rest_framework.status import is_success
 from utils import codes
 
