@@ -37,4 +37,3 @@ class PayTicketSerializer(serializers.Serializer):
         p.save()
         p.success()
         return {'result': 'success'}
-

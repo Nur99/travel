@@ -87,7 +87,7 @@ class Place(models.Model):
 
     name = models.CharField(max_length=10000, verbose_name='Название заведения',
                             null=False, blank=False)
-    avatar_url = models.ImageField(upload_to='images/',
+    avatar = models.ImageField(upload_to='images/',
                                    blank=False, null=False,
                                    max_length=1000)
     city = models.ForeignKey(City, null=True, on_delete=models.SET_NULL,

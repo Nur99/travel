@@ -6,7 +6,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
-from .serializers import PaymentSerializer, PaymentListSerializer, PayTicketSerializer
+from .serializers import (PaymentSerializer, PaymentListSerializer,
+                          PayTicketSerializer)
 from .models import Payment
 
 
