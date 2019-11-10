@@ -3,6 +3,6 @@ from .models import (Feedback)
 
 
 @admin.register(Feedback)
-class EventAdmin(admin.ModelAdmin):
+class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', )
     list_filter = ('user', )
