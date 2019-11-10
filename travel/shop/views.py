@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .serializers import (OrderPurchaseSerializer, )
-from .models import Order
+from .serializers import (OrderPurchaseSerializer, TicketSerializer)
+from .models import Order, Ticket
 from utils.decorators import response_wrapper
 
 
@@ -24,3 +24,13 @@ class OrderViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         result = serializer.purchase()
         return Response(result)
+
+
+@method_decorator(response_wrapper(), name='dispatch')
+class TicketViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = TicketSerializer
+    queryset = Ticket.objects.all()
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        return self.queryset.filter(order__user=self.request.user)
