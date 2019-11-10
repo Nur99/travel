@@ -17,7 +17,8 @@ class PlaceSearchSerializer(serializers.Serializer):
         kwargs = {}
         kwargs['similarity__gt'] = constants.SEARCH_SIMILARITY
         places = []
-        for place in Place.objects.annotate(similarity=TrigramSimilarity('name', query), ).filter(**kwargs):
+        for place in Place.objects.annotate(
+                similarity=TrigramSimilarity('name', query), ).filter(**kwargs):
             places.append(place)
         return {'places': PlaceSerializer(places, many=True).data}
 
@@ -32,7 +33,11 @@ class AddRatingSerializer(serializers.Serializer):
 
     def add_rating(self, place, user):
         data = self.context['request'].data
-        rating = PlaceUserRating.objects.add_rating(place=place, user=user, review=data['review'], rating=data['rating'])
+        rating = PlaceUserRating.objects.add_rating(
+            place=place,
+            user=user,
+            review=data['review'],
+            rating=data['rating'])
         return {'rating': PlaceUserRatingSerialzier(rating).data}
 
 

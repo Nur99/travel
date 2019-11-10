@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import (OrderPurchaseSerializer, )
 from .models import Order
@@ -24,4 +24,3 @@ class OrderViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         result = serializer.purchase()
         return Response(result)
-

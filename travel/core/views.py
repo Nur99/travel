@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from .serializers import (AddRatingSerializer, PlaceSerializer,
                           PlaceSearchSerializer, CitySerializer,
                           CountrySerializer)
-from .models import Place, Country, City, PlaceType, PlaceService
+from .models import Place, Country, City
 from utils.decorators import response_wrapper
 
 
@@ -47,7 +47,8 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
         result = serializer.search(query=query)
         return Response(result)
 
-    @action(permission_classes=[IsAuthenticated,], methods=['post'], detail=True)
+    @action(permission_classes=[IsAuthenticated, ],
+            methods=['post'], detail=True)
     def add_rating(self, request, pk):
         instance = self.get_object()
         serializer = self.get_serializer(data=request.data)
