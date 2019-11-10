@@ -116,6 +116,39 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s -- %(asctime)s -- %(message)s',
+        },
+        'simple': {
+            'format': '%(levelname)s -- %(message)s',
+        }
+    },
+    'handlers': {
+        'core_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': 'core.log',
+            'when': 'midnight',
+            'backupCount': 30,
+        },
+        'console_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'core': {
+            'handlers': ['core_file', 'console_handler'],
+            'level': 'INFO',
+        },
+    },
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
@@ -164,12 +197,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-PB_URL = 'https://api.paybox.money/payment.php'
-PB_REVOKE_URL = 'https://api.paybox.money/revoke.php'
-PB_SECRET = os.getenv('PB_SECRET')
-PB_SECRET_TICKET = os.getenv('PB_SECRET_TICKET')
-PB_MERCHANT_ID = os.getenv('PB_MERCHANT_ID')
-PB_TESTING = '1'
+PAYMENT_URL = 'http://127.0.0.1:8000/payment/pay/{}'
 
 PLACE_MODEL = 'core.Place'
 MAIN_USER_MODEL = 'auth_.MainUser'

@@ -6,7 +6,6 @@ from auth_.models import MainUser, Activation
 from auth_.message import send_html
 from utils import messages
 
-
 class MainUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainUser
