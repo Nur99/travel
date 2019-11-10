@@ -1,6 +1,7 @@
 from copy import deepcopy
 from functools import wraps
 from rest_framework.status import is_success
+from utils import codes
 
 
 def response_wrapper():
@@ -14,8 +15,7 @@ def response_wrapper():
             response = func(request, *args, **kwargs)
             if is_success(response.status_code):
                 data = deepcopy(response.data)
-                response.data = {'result': data, 'code': 0}
+                response.data = {'result': data, 'code': codes.OK}
             return response
         return inner
     return decorator
-

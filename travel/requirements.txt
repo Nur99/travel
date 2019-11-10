@@ -1,3 +1,5 @@
+certifi==2019.9.11
+chardet==3.0.4
 Django==2.2.6
 django-cors-headers==3.1.1
 django-suit==0.2.28
@@ -5,6 +7,7 @@ djangorestframework==3.10.3
 djangorestframework-jwt==1.11.0
 entrypoints==0.3
 flake8==3.7.8
+idna==2.8
 mccabe==0.6.1
 Pillow==6.2.0
 psycopg2==2.8.3
@@ -13,4 +16,6 @@ pyflakes==2.1.1
 PyJWT==1.7.1
 python-dotenv==0.10.3
 pytz==2019.2
+requests==2.22.0
 sqlparse==0.3.0
+urllib3==1.25.6

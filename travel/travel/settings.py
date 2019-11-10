@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'auth_',
     'core',
+    'feedback',
     'shop',
+    'payment',
+    'mixins'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -64,8 +67,7 @@ ROOT_URLCONF = 'travel.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,7 +86,8 @@ WSGI_APPLICATION = 'travel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
+DATABASES = \
+    {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': os.getenv('DB_NAME'),
@@ -95,26 +98,62 @@ DATABASES = {
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
-AUTH_USER_MODEL = "auth_.MainUser"
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s -- %(asctime)s -- %(message)s',
+        },
+        'simple': {
+            'format': '%(levelname)s -- %(message)s',
+        }
+    },
+    'handlers': {
+        'core_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': 'core.log',
+            'when': 'midnight',
+            'backupCount': 30,
+        },
+        'console_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'core': {
+            'handlers': ['core_file', 'console_handler'],
+            'level': 'INFO',
+        },
+    },
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
@@ -124,6 +163,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+AUTH_USER_MODEL = 'auth_.MainUser'
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False
@@ -161,5 +202,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
+PAYMENT_URL = 'http://127.0.0.1:8000/payment/card_detail/{}'
+
 PLACE_MODEL = 'core.Place'
-MAIN_USER_MODEL = 'auth_.MainUser'
+ORDER_MODEL = 'shop.Order'
+TIMESTAMP_MIXIN_MODEL = 'mixins.TimestampMixin'
