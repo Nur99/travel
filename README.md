@@ -22,7 +22,8 @@ Then install requirements
 ```
 pip install -r requirements.txt
 ```
-4. Run the project
+4. create a file .env and write necessary things 
+5. Run the project
 ```
 python manage.py runserver
 ```
