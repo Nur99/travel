@@ -9,5 +9,24 @@ To test the project, do following steps:
 ```
 virtualenv env
 ```
-3. 
-
+3. activate the environment and install all required libraries
+On Windows
+```
+env\Scripts\activate
+```
+On Unix based system
+```
+source env\bin\activate
+```
+Then install requirements
+```
+pip install -r requirements.txt
+```
+4. Run the project
+```
+python manage.py runserver
+```
+or 
+```
+./manage.py runserver
+```
