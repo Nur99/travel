@@ -104,6 +104,7 @@ class Place(models.Model):
     description = models.CharField(max_length=10000,
                                    verbose_name='Описание заведения', null=True,
                                    blank=True)
+    price = models.PositiveIntegerField(default=0, verbose_name="Цена")
     address = models.CharField(max_length=10000, verbose_name='Адрес заведения',
                                null=True, blank=False)
     latitude = models.FloatField(blank=True, null=True)

@@ -1,0 +1,769 @@
+{
+	"info": {
+		"_postman_id": "19efa371-30a3-43fd-bab5-3ca9d0d526f5",
+		"name": "travel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "send_msg",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"isimovabakyt@gmail.com\",\n\t\"password1\": \"ghbdtn1234\",\n\t\"password2\": \"ghbdtn1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/auth/activations/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"auth",
+								"activations",
+								""
+							]
+						},
+						"description": "POST request\\\nInput:<pre>\n`{\n\t\"email\": \"isimovabakyt@gmail.com\",\n\t\"password1\": \"ghbdtn1234\",\n\t\"password2\": \"ghbdtn1234\"\n}`</pre>\nOutput: <pre>\n`{\n    \"activation\": {\n        \"email\": \"isimovabakyt@gmail.com\",\n        \"full_name\": null,\n        \"created_at\": \"2019-12-03T03:14:25.193998+06:00\",\n        \"end_time\": \"2019-12-03T03:24:25.193998+06:00\"\n    }\n}`</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "activate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_URL}}/auth/activations/activate/e633753f-58a2-40c3-86c9-2c5bde9393bf/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"auth",
+								"activations",
+								"activate",
+								"e633753f-58a2-40c3-86c9-2c5bde9393bf",
+								""
+							]
+						},
+						"description": "GET request\\\nOutput: \n<pre>\n{\n    \"user\": {\n        \"id\": 15,\n        \"full_name\": null,\n        \"avatar\": null,\n        \"email\": \"isimovabakyt@gmail.com\",\n        \"birth_date\": null,\n        \"timestamp\": \"2019-12-03T03:15:33.996117+06:00\"\n    }\n}\n</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "resend msg",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_URL}}/auth/activations/20/resend_msg/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"auth",
+								"activations",
+								"20",
+								"resend_msg",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8494ac61-5f29-426f-916e-9adcc07388a7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e77ab147-1f5d-46a1-8c11-e8155e0f0a07",
+								"exec": [
+									"var res = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token\", res.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"isimovabakyt@gmail.com\",\n\t\"password\": \"ghbdtn1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/auth/users/login/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"auth",
+								"users",
+								"login",
+								""
+							]
+						},
+						"description": "POST request\nInput:<pre>\n{\n\t\"email\": \"isimovabakyt@gmail.com\",\n\t\"password\": \"ghbdtn1234\"\n}</pre>\nOutput:<pre>\n{\n    \"user\": {\n        \"id\": 15,\n        \"full_name\": null,\n        \"avatar\": null,\n        \"email\": \"isimovabakyt@gmail.com\",\n        \"birth_date\": null,\n        \"timestamp\": \"2019-12-03T03:15:33.996117+06:00\"\n    },\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJpc2ltb3ZhYmFreXRAZ21haWwuY29tIiwiZXhwIjoxNTc1MzIxOTIyLCJlbWFpbCI6ImlzaW1vdmFiYWt5dEBnbWFpbC5jb20ifQ.Hby_9RNhBvPxOEXn-TBYCMOT-vyjcDseOnLR3Zzr5z8\"\n}\n</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "get profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_URL}}/auth/users/profile/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"auth",
+								"users",
+								"profile",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "GET request, JWT authentication needed.\\\nOutput:\n<pre>\n{\n    \"id\": 15,\n    \"full_name\": null,\n    \"avatar\": null,\n    \"email\": \"isimovabakyt@gmail.com\",\n    \"birth_date\": null,\n    \"timestamp\": \"2019-12-03T03:15:33.996117+06:00\"\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "change_password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password1\": \"ghbdtn1234\",\n\t\"password2\": \"ghbdtn1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/auth/users/change_password/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"auth",
+								"users",
+								"change_password",
+								""
+							]
+						},
+						"description": "Post request to change password. Authentication needed\\\nInput:<pre>\n{\n\t\"password1\": \"ghbdtn1234\",\n\t\"password2\": \"ghbdtn1234\"\n}</pre>\nOutput:<pre>\n{\n    \"user\": {\n        \"id\": 15,\n        \"full_name\": null,\n        \"avatar\": null,\n        \"email\": \"isimovabakyt@gmail.com\",\n        \"birth_date\": null,\n        \"timestamp\": \"2019-12-03T03:35:23.661869+06:00\"\n    }\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "change_profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"full_name\": \"Bakyt\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/auth/users/15/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"auth",
+								"users",
+								"15",
+								""
+							]
+						},
+						"description": "Input:<pre>\n{\n\t\"full_name\": \"Bakyt\"\n}</pre>\nOutput:<pre>\n{\n    \"id\": 15,\n    \"full_name\": \"Bakyt\",\n    \"avatar\": null,\n    \"email\": \"isimovabakyt@gmail.com\",\n    \"birth_date\": null,\n    \"timestamp\": \"2019-12-03T03:36:43.211285+06:00\"\n}</pre>"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "core",
+			"item": [
+				{
+					"name": "countries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_URL}}/core/country/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"core",
+								"country",
+								""
+							]
+						},
+						"description": "Output:<pre>\n{\n    \"result\": [\n        {\n            \"id\": 1,\n            \"name\": \"Kazakhstan\"\n        }\n    ],\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "cities by country",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_URL}}/core/city?country_id=1",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"core",
+								"city"
+							],
+							"query": [
+								{
+									"key": "country_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Get cities by country id\\\nParam:\ncountry_id - 1\nOutput:\n<pre>\n{\n    \"result\": [\n        {\n            \"id\": 1,\n            \"name\": \"reviewers\",\n            \"country\": 1\n        }\n    ],\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "get places by query",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_URL}}/core/place/?city=1&country=1&price_max=100",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"core",
+								"place",
+								""
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "1"
+								},
+								{
+									"key": "country",
+									"value": "1"
+								},
+								{
+									"key": "price_max",
+									"value": "100"
+								}
+							]
+						},
+						"description": "Params:\\\ncity - 1\\\ncountry - 1\\\nprice_min - 0\\\nprice_max - 100\\\nOutput:<pre>\n{\n    \"result\": [\n        {\n            \"id\": 1,\n            \"name\": \"marathon2018\",\n            \"avatar\": \"http://127.0.0.1:8000/media/images/922cfc6ef173df449ca65842f86ebf37.jpg\",\n            \"rating\": 0.0,\n            \"review_count\": 0,\n            \"description\": \"onielfnc;oNLV HBNFCwhbvnje;bveorlbvhjfmkh\",\n            \"price\": 0,\n            \"address\": \"lllll\",\n            \"latitude\": null,\n            \"longitude\": null,\n            \"phones\": null,\n            \"website_url\": null,\n            \"working_hours\": null,\n            \"city\": {\n                \"id\": 1,\n                \"name\": \"reviewers\",\n                \"country\": {\n                    \"id\": 1,\n                    \"name\": \"Kazakhstan\"\n                }\n            },\n            \"place_type\": {\n                \"id\": 1,\n                \"name\": \"hot\"\n            },\n            \"services\": []\n        },\n        {\n            \"id\": 2,\n            \"name\": \"hot\",\n            \"avatar\": \"http://127.0.0.1:8000/media/images/stock-photo-150595123.jpg\",\n            \"rating\": 0.0,\n            \"review_count\": 0,\n            \"description\": null,\n            \"price\": 0,\n            \"address\": \"Казахстан, Нур-Султан (Астана), район Сарыарка\",\n            \"latitude\": null,\n            \"longitude\": null,\n            \"phones\": null,\n            \"website_url\": null,\n            \"working_hours\": null,\n            \"city\": {\n                \"id\": 1,\n                \"name\": \"reviewers\",\n                \"country\": {\n                    \"id\": 1,\n                    \"name\": \"Kazakhstan\"\n                }\n            },\n            \"place_type\": {\n                \"id\": 1,\n                \"name\": \"hot\"\n            },\n            \"services\": []\n        }\n    ],\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "get place by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_URL}}/core/place/1/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"core",
+								"place",
+								"1",
+								""
+							]
+						},
+						"description": "write id of place in url\\\nOutput:<pre>\n{\n    \"result\": {\n        \"id\": 1,\n        \"name\": \"marathon2018\",\n        \"avatar\": \"http://127.0.0.1:8000/media/images/922cfc6ef173df449ca65842f86ebf37.jpg\",\n        \"rating\": 0.0,\n        \"review_count\": 0,\n        \"description\": \"onielfnc;oNLV HBNFCwhbvnje;bveorlbvhjfmkh\",\n        \"price\": 0,\n        \"address\": \"lllll\",\n        \"latitude\": null,\n        \"longitude\": null,\n        \"phones\": null,\n        \"website_url\": null,\n        \"working_hours\": null,\n        \"city\": {\n            \"id\": 1,\n            \"name\": \"reviewers\",\n            \"country\": {\n                \"id\": 1,\n                \"name\": \"Kazakhstan\"\n            }\n        },\n        \"place_type\": {\n            \"id\": 1,\n            \"name\": \"hot\"\n        },\n        \"services\": []\n    },\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "search by name",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"query\": \"ho\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/core/place/search/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"core",
+								"place",
+								"search",
+								""
+							]
+						},
+						"description": "Full text search by name of places\\\nInput:<pre>\n{\n\t\"query\": \"ho\"\n}</pre>\nOutput:<pre>\n{\n    \"result\": {\n        \"places\": [\n            {\n                \"id\": 2,\n                \"name\": \"hot\",\n                \"avatar\": \"/media/images/stock-photo-150595123.jpg\",\n                \"rating\": 0.0,\n                \"review_count\": 0,\n                \"description\": null,\n                \"price\": 0,\n                \"address\": \"Казахстан, Нур-Султан (Астана), район Сарыарка\",\n                \"latitude\": null,\n                \"longitude\": null,\n                \"phones\": null,\n                \"website_url\": null,\n                \"working_hours\": null,\n                \"city\": {\n                    \"id\": 1,\n                    \"name\": \"reviewers\",\n                    \"country\": {\n                        \"id\": 1,\n                        \"name\": \"Kazakhstan\"\n                    }\n                },\n                \"place_type\": {\n                    \"id\": 1,\n                    \"name\": \"hot\"\n                },\n                \"services\": []\n            }\n        ]\n    },\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "add rating",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"review\": \"some review\",\n\t\"rating\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/core/place/1/add_rating/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"core",
+								"place",
+								"1",
+								"add_rating",
+								""
+							]
+						},
+						"description": "Authentication needed. Enter id in url\\\nInput:<pre>\n{\n\t\"review\": \"some review\",\n\t\"rating\": 5\n}</pre>\nOutput:<pre>\n{\n    \"result\": {\n        \"rating\": {\n            \"id\": 1,\n            \"review\": \"some review\",\n            \"rating\": 5,\n            \"status\": \"pending\",\n            \"timestamp\": \"2019-12-03T04:04:31.987522+06:00\",\n            \"place\": 1,\n            \"user\": 15\n        }\n    },\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "feedback",
+			"item": [
+				{
+					"name": "create feedback",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "message",
+									"value": "some text",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/feedback/feedback/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"feedback",
+								"feedback",
+								""
+							]
+						},
+						"description": "Authentivation needed\\\nInput:<pre>\n{\n\t\"message\": \"some text\"\n}</pre>\nOutput:<pre>\n{\n    \"result\": {\n        \"user\": {\n            \"id\": 1,\n            \"password\": \"pbkdf2_sha256$150000$Fgb71GJFoZ27$duWDsc6MmocYpI7g5vWp+gXWgTvQc6CdRiwPdPS8ga4=\",\n            \"last_login\": \"2019-11-03T13:45:57.328034+06:00\",\n            \"is_superuser\": true,\n            \"full_name\": null,\n            \"avatar\": null,\n            \"email\": \"a@gmail.com\",\n            \"birth_date\": null,\n            \"timestamp\": \"2019-10-06T15:04:56.704192+06:00\",\n            \"is_active\": true,\n            \"is_admin\": true,\n            \"is_staff\": true,\n            \"groups\": [],\n            \"user_permissions\": []\n        },\n        \"message\": \"some text\"\n    },\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "list of user's feedback",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_URL}}/feedback/feedback/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"feedback",
+								"feedback",
+								""
+							]
+						},
+						"description": "Authentication needed\\\nOutput:<pre>\n{\n    \"result\": [\n        {\n            \"user\": {\n                \"id\": 1,\n                \"password\": \"pbkdf2_sha256$150000$Fgb71GJFoZ27$duWDsc6MmocYpI7g5vWp+gXWgTvQc6CdRiwPdPS8ga4=\",\n                \"last_login\": \"2019-11-03T13:45:57.328034+06:00\",\n                \"is_superuser\": true,\n                \"full_name\": null,\n                \"avatar\": null,\n                \"email\": \"a@gmail.com\",\n                \"birth_date\": null,\n                \"timestamp\": \"2019-10-06T15:04:56.704192+06:00\",\n                \"is_active\": true,\n                \"is_admin\": true,\n                \"is_staff\": true,\n                \"groups\": [],\n                \"user_permissions\": []\n            },\n            \"message\": \"some text\"\n        },\n        {\n            \"user\": {\n                \"id\": 1,\n                \"password\": \"pbkdf2_sha256$150000$Fgb71GJFoZ27$duWDsc6MmocYpI7g5vWp+gXWgTvQc6CdRiwPdPS8ga4=\",\n                \"last_login\": \"2019-11-03T13:45:57.328034+06:00\",\n                \"is_superuser\": true,\n                \"full_name\": null,\n                \"avatar\": null,\n                \"email\": \"a@gmail.com\",\n                \"birth_date\": null,\n                \"timestamp\": \"2019-10-06T15:04:56.704192+06:00\",\n                \"is_active\": true,\n                \"is_admin\": true,\n                \"is_staff\": true,\n                \"groups\": [],\n                \"user_permissions\": []\n            },\n            \"message\": \"some text\"\n        },\n        {\n            \"user\": {\n                \"id\": 1,\n                \"password\": \"pbkdf2_sha256$150000$Fgb71GJFoZ27$duWDsc6MmocYpI7g5vWp+gXWgTvQc6CdRiwPdPS8ga4=\",\n                \"last_login\": \"2019-11-03T13:45:57.328034+06:00\",\n                \"is_superuser\": true,\n                \"full_name\": null,\n                \"avatar\": null,\n                \"email\": \"a@gmail.com\",\n                \"birth_date\": null,\n                \"timestamp\": \"2019-10-06T15:04:56.704192+06:00\",\n                \"is_active\": true,\n                \"is_admin\": true,\n                \"is_staff\": true,\n                \"groups\": [],\n                \"user_permissions\": []\n            },\n            \"message\": \"some text\"\n        },\n        {\n            \"user\": {\n                \"id\": 1,\n                \"password\": \"pbkdf2_sha256$150000$Fgb71GJFoZ27$duWDsc6MmocYpI7g5vWp+gXWgTvQc6CdRiwPdPS8ga4=\",\n                \"last_login\": \"2019-11-03T13:45:57.328034+06:00\",\n                \"is_superuser\": true,\n                \"full_name\": null,\n                \"avatar\": null,\n                \"email\": \"a@gmail.com\",\n                \"birth_date\": null,\n                \"timestamp\": \"2019-10-06T15:04:56.704192+06:00\",\n                \"is_active\": true,\n                \"is_admin\": true,\n                \"is_staff\": true,\n                \"groups\": [],\n                \"user_permissions\": []\n            },\n            \"message\": \"some text\"\n        },\n        {\n            \"user\": {\n                \"id\": 1,\n                \"password\": \"pbkdf2_sha256$150000$Fgb71GJFoZ27$duWDsc6MmocYpI7g5vWp+gXWgTvQc6CdRiwPdPS8ga4=\",\n                \"last_login\": \"2019-11-03T13:45:57.328034+06:00\",\n                \"is_superuser\": true,\n                \"full_name\": null,\n                \"avatar\": null,\n                \"email\": \"a@gmail.com\",\n                \"birth_date\": null,\n                \"timestamp\": \"2019-10-06T15:04:56.704192+06:00\",\n                \"is_active\": true,\n                \"is_admin\": true,\n                \"is_staff\": true,\n                \"groups\": [],\n                \"user_permissions\": []\n            },\n            \"message\": \"some text\"\n        }\n    ],\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "shop",
+			"item": [
+				{
+					"name": "purchase ",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"event\": 1,\n\t\"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/shop/order/purchase/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"shop",
+								"order",
+								"purchase",
+								""
+							]
+						},
+						"description": "Input:<pre>\n{\n\t\"event\": 1,\n\t\"quantity\": 1\n}</pre>\nOutput:<pre>\n{\n    \"result\": {\n        \"paybox_url\": \"http://127.0.0.1:8000/payment/card_detail/5\"\n    },\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "list tickets",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_URL}}/shop/ticket/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"shop",
+								"ticket",
+								""
+							]
+						},
+						"description": "Authorization needed\\\nOutput:<pre>\n{\n    \"result\": [\n        {\n            \"id\": 2,\n            \"order\": {\n                \"event\": 1,\n                \"quantity\": 1,\n                \"status\": \"APPROVED\"\n            },\n            \"uuid\": \"48257bc2-00ae-4807-a4de-a6f6f615b444\"\n        }\n    ],\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "ticket by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}} ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_URL}}/shop/ticket/2/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"shop",
+								"ticket",
+								"2",
+								""
+							]
+						},
+						"description": "Authorization needed\\\nOutput:<pre>\n{\n    \"result\": {\n        \"id\": 2,\n        \"order\": {\n            \"event\": 1,\n            \"quantity\": 1,\n            \"status\": \"APPROVED\"\n        },\n        \"uuid\": \"48257bc2-00ae-4807-a4de-a6f6f615b444\"\n    },\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "pay",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name_on_card\": \"ddsdc\",\n\t\"card_number\": 34232323,\n\t\"expiration\": \"09/25\",\n\t\"cvv\": 653\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL_URL}}/payment/payment/6/pay/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"payment",
+								"payment",
+								"6",
+								"pay",
+								""
+							]
+						},
+						"description": "Input:<pre>\n{\n\t\"name_on_card\": \"ddsdc\",\n\t\"card_number\": 34232323,\n\t\"expiration\": \"09/25\",\n\t\"cvv\": 653\n}</pre>\nOutput:<pre>\n{\n    \"result\": {\n        \"result\": \"success\"\n    },\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "list payments",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_URL}}/payment/payment/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"payment",
+								"payment",
+								""
+							]
+						},
+						"description": "Authorization needed\\\nOutput: <pre>\n{\n    \"result\": [\n        {\n            \"id\": 6,\n            \"created_at\": \"2019-12-03T22:31:48.507191+06:00\",\n            \"total_price\": 1000,\n            \"description\": \"mar\",\n            \"status\": \"SUCCESS\"\n        }\n    ],\n    \"code\": 0\n}</pre>"
+					},
+					"response": []
+				},
+				{
+					"name": "payment by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL_URL}}/payment/payment/6/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"payment",
+								"payment",
+								"6",
+								""
+							]
+						},
+						"description": "Authorization needed\\\nOutput:<pre>\n{\n    \"result\": {\n        \"id\": 6,\n        \"created_at\": \"2019-12-03T22:31:48.507191+06:00\",\n        \"total_price\": 1000,\n        \"order\": {\n            \"event\": 1,\n            \"quantity\": 1,\n            \"status\": \"APPROVED\"\n        },\n        \"description\": \"mar\",\n        \"status\": \"SUCCESS\",\n        \"tickets\": [\n            {\n                \"id\": 2,\n                \"order\": {\n                    \"event\": 1,\n                    \"quantity\": 1,\n                    \"status\": \"APPROVED\"\n                },\n                \"uuid\": \"48257bc2-00ae-4807-a4de-a6f6f615b444\"\n            }\n        ]\n    },\n    \"code\": 0\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "enter card detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL_URL}}/payment/card_detail/6/",
+							"host": [
+								"{{LOCAL_URL}}"
+							],
+							"path": [
+								"payment",
+								"card_detail",
+								"6",
+								""
+							]
+						},
+						"description": "return html template"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
