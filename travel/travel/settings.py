@@ -133,24 +133,27 @@ LOGGING = {
         }
     },
     'handlers': {
-        'core_file': {
+        'info': {
             'level': 'INFO',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'formatter': 'verbose',
-            'filename': 'core.log',
-            'when': 'midnight',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'simple',
+            'filename': 'logs/info.log',
+            'maxBytes': 1024*1024*10,
             'backupCount': 30,
         },
-        'console_handler': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': 'logs/error.log',
+            'maxBytes': 1024*1024*10,
+            'backupCount': 30,
         }
     },
     'loggers': {
-        'core': {
-            'handlers': ['core_file', 'console_handler'],
-            'level': 'INFO',
+        '': {
+            'handlers': ['info', 'error'],
+            # 'level': 'INFO',
         },
     },
 }
