@@ -127,7 +127,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"isimovabakyt@gmail.com\",\n\t\"password\": \"ghbdtn1234\"\n}",
+							"raw": "{\n\t\"email\": \"admin@gmail.com\",\n\t\"password\": \"admin\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -244,8 +244,19 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"full_name\": \"Bakyt\"\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "full_name",
+									"value": "Bakyt2",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Lenovo/Pictures/Camera Roll/stock-photo-150595123.jpg"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -253,14 +264,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{LOCAL_URL}}/auth/users/15/",
+							"raw": "{{LOCAL_URL}}/auth/users/14/",
 							"host": [
 								"{{LOCAL_URL}}"
 							],
 							"path": [
 								"auth",
 								"users",
-								"15",
+								"14",
 								""
 							]
 						},
