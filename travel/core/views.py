@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from .serializers import (AddRatingSerializer, PlaceSerializer,
                           PlaceSearchSerializer, CitySerializer,
-                          CountrySerializer)
+                          CountrySerializer, PlaceShortSerializer)
 from .models import Place, Country, City
 from utils.decorators import response_wrapper
 import logging
@@ -19,6 +19,8 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PlaceSerializer
 
     def get_serializer_class(self):
+        if self.action == 'list':
+            return PlaceShortSerializer
         if self.action == 'search':
             return PlaceSearchSerializer
         if self.action == 'add_rating':
