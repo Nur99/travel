@@ -16,14 +16,18 @@ env\Scripts\activate
 ```
 On Unix based system
 ```
-source env\bin\activate
+source env/bin/activate
 ```
 Then install requirements
 ```
 pip install -r requirements.txt
 ```
-4. create a file .env and write necessary things 
-5. Run the project
+4. create a file .env and write necessary things
+5. create a database and make migrations
+```
+python manage.py migrate
+```
+6. Run the project
 ```
 python manage.py runserver
 ```
