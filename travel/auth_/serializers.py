@@ -11,11 +11,16 @@ from utils import messages
 logger = logging.getLogger(__name__)
 
 
-class MainUserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainUser
-        fields = ('id', 'full_name', 'avatar', 'email',
-                  'birth_date', 'timestamp')
+        fields = ('id', 'full_name', 'avatar', 'birth_date')
+
+
+
+class MainUserSerializer(ProfileSerializer):
+    class Meta(ProfileSerializer.Meta):
+        fields = ProfileSerializer.Meta.fields + ('email', 'timestamp')
 
 
 class ActivationSerializer(serializers.ModelSerializer):
