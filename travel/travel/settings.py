@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'feedback',
     'shop',
     'payment',
-    'mixins'
+    'mixins',
+    'django_extensions',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

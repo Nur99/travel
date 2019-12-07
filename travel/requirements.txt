@@ -10,7 +10,7 @@ flake8==3.7.8
 idna==2.8
 mccabe==0.6.1
 Pillow==6.2.0
-psycopg2==2.8.3
+psycopg2-binary==2.8.3
 pycodestyle==2.5.0
 pyflakes==2.1.1
 PyJWT==1.7.1
@@ -19,3 +19,4 @@ pytz==2019.2
 requests==2.22.0
 sqlparse==0.3.0
 urllib3==1.25.6
+graphviz
