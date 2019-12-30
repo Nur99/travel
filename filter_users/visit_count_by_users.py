@@ -22,5 +22,10 @@ for sub in UserSubscription.objects.all():
     except:
         visit_count_by_users[cnt] = 1
 
+ant = 0
 for i in jiilik:
     print(i, visit_count_by_users[i])
+    ant += visit_count_by_users[i]
+
+for i in jiilik:
+    print(i, visit_count_by_users[i] / ant * 100)
