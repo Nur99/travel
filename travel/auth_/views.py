@@ -9,7 +9,8 @@ from auth_.message import send_html
 from auth_.token import get_token
 from auth_.serializers import (ActivationSerializer, EmailSerializer,
                                RegistrationSerializer, MainUserSerializer,
-                               LoginSerializer, ChangePasswordSerializer)
+                               LoginSerializer, ChangePasswordSerializer,
+                               ProfileSerializer)
 from utils import messages
 
 
@@ -61,13 +62,16 @@ class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
     def get_serializer_class(self):
         if self.action == 'change_password':
             return ChangePasswordSerializer
+        elif self.action == 'update':
+            print('updaaaaateee')
+            return ProfileSerializer
         return MainUserSerializer
 
     def get_serializer_context(self):
         return {'user': self.request.user}
 
     def get_object(self):
-        if self.action == 'profile'or self.action == 'change_profile':
+        if self.action == 'profile':
             return self.request.user
         return super().get_object()
 

@@ -1,3 +1,4 @@
+import logging
 from django.contrib.auth.hashers import check_password
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -7,11 +8,19 @@ from auth_.message import send_html
 from utils import messages
 
 
-class MainUserSerializer(serializers.ModelSerializer):
+logger = logging.getLogger(__name__)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainUser
-        fields = ('id', 'full_name', 'avatar', 'email',
-                  'birth_date', 'timestamp')
+        fields = ('id', 'full_name', 'avatar', 'birth_date')
+
+
+
+class MainUserSerializer(ProfileSerializer):
+    class Meta(ProfileSerializer.Meta):
+        fields = ProfileSerializer.Meta.fields + ('email', 'timestamp')
 
 
 class ActivationSerializer(serializers.ModelSerializer):
@@ -41,6 +50,9 @@ class EmailSerializer(serializers.Serializer):
     password2 = serializers.CharField(max_length=200)
 
     def validate(self, attrs):
+        if Activation.objects.filter(email=attrs['email']).exists():
+            logger.warning(messages.USER_EXISTS)
+            raise ValidationError(messages.USER_EXISTS)
         if attrs['password1'] != attrs['password2']:
             raise ValidationError(messages.PASSWORD_NOT_SAME)
         return attrs

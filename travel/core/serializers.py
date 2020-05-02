@@ -2,9 +2,14 @@ from rest_framework import serializers
 from .models import Place, PlaceUserRating, City, Country
 
 
-class PlaceSerializer(serializers.ModelSerializer):
+class PlaceShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Place
+        fields = ('id', 'name', 'avatar', 'place_type', 'city', 'price', 'address')
+
+
+class PlaceSerializer(PlaceShortSerializer):
+    class Meta(PlaceShortSerializer.Meta):
         fields = '__all__'
         depth = 2
 

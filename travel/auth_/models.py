@@ -8,7 +8,7 @@ from django.db import models
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
-from utils import constants, messages
+from utils import constants, messages, file_utils
 
 
 class MainUserManager(BaseUserManager):
@@ -43,7 +43,8 @@ class MainUserManager(BaseUserManager):
 
 class MainUser(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=300, blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True,
+                               validators=[file_utils.validate_image_size])
     email = models.EmailField(max_length=50, unique=True, db_index=True)
     birth_date = models.DateField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now=True)
