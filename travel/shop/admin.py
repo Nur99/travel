@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (Event, Order, Ticket)
+from .models import (Event, Order, Ticket, Test)
 
 
 @admin.register(Event)
@@ -22,3 +22,6 @@ class OrderAdmin(admin.ModelAdmin):
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('order', 'uuid', )
     list_filter = ('order', )
+
+
+admin.site.register(Test)

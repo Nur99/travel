@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import (OrderPurchaseSerializer, TicketSerializer)
 from .models import Order, Ticket
+from .tasks import cancel_reservation
 from utils.decorators import response_wrapper
 
 
@@ -33,4 +34,5 @@ class TicketViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
+        cancel_reservation()
         return self.queryset.filter(order__user=self.request.user)
