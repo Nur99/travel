@@ -27,7 +27,7 @@ SECRET_KEY = 'nl6$xre21x0+hav((nz^*ou+$j=q4k1lj2#5sc3d$h!uz6#x9f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -199,7 +199,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = "/static"
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
@@ -211,3 +211,4 @@ PAYMENT_URL = 'http://127.0.0.1:8000/payment/card_detail/{}'
 PLACE_MODEL = 'core.Place'
 ORDER_MODEL = 'shop.Order'
 TIMESTAMP_MIXIN_MODEL = 'mixins.TimestampMixin'
+BROKER_URL = 'amqp://myuser:mypassword@localhost:5672/myvhost' 
