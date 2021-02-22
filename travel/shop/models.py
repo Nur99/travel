@@ -85,3 +85,11 @@ class Ticket(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4(),
                             unique=True,
                             verbose_name='Номер билета')
+
+
+class Test(TimestampMixin):
+    class Meta:
+        verbose_name = 'Test'
+        verbose_name_plural = 'Tests'
+
+    title = models.CharField(max_length=200, verbose_name='Имя', null=True, default='Gi')
